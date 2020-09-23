@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,10 @@ import 'package:hy_genie/widgets/app_bar.dart';
 import 'package:hy_genie/widgets/rounded_button.dart';
 import 'package:hy_genie/constants.dart';
 import 'package:hy_genie/theme_state.dart';
+import 'package:provider/provider.dart';
+import 'package:time/time.dart';
+
+import '../app_data.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override

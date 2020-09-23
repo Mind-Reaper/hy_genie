@@ -72,7 +72,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Provider.of<Timing>(context).checkTime();
     Color inactiveIconColor = Theme.of(context).primaryColor;
     Color inactiveBallColor = Theme.of(context).accentColor;
     var appData = Provider.of<AppData>(context);

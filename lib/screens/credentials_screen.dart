@@ -19,6 +19,7 @@ class _CredentialsScreenState extends State<CredentialsScreen> {
   @override
   Widget build(BuildContext context) {
     var appData = Provider.of<AppData>(context);
+
     return Scaffold(
       body: SafeArea(
         child: Column(

@@ -30,6 +30,9 @@ class MyApp extends StatelessWidget {
 class MaterialAppWithTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      Provider.of<Timing>(context, listen: false).updateWidgets(context);
+    });
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
           statusBarColor: appTheme,

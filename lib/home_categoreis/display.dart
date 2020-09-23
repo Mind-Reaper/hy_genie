@@ -24,9 +24,7 @@ class _DisplayState extends State<Display> {
   Widget build(BuildContext context) {
     var appData = Provider.of<AppData>(context);
     var timer = Provider.of<Timing>(context);
-    print(timer.sleepWell);
-    print(appData.myTime);
-    print(DateTime.now());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -89,6 +87,7 @@ class _DisplayState extends State<Display> {
           ),
         ),
         PictureContainer(
+          expand: timer.getHydrated,
           title: 'Get Hydrated',
           buttonText: "I'M HYDRATED",
           image: 'drinkswater',
@@ -98,6 +97,7 @@ class _DisplayState extends State<Display> {
           ),
         ),
         PictureContainer(
+          expand: timer.getReady,
           title: 'Get Ready',
           image: 'bedtime',
           childOne: Text(
