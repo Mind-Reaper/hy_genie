@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hy_genie/widgets/indicator.dart';
 import 'package:hy_genie/widgets/my_container.dart';
 import 'package:hy_genie/widgets/rounded_button.dart';
+import 'package:provider/provider.dart';
+
+import '../app_data.dart';
 
 class Nutrition extends StatefulWidget {
   @override
@@ -14,6 +17,7 @@ class _NutritionState extends State<Nutrition> {
 
   @override
   Widget build(BuildContext context) {
+    var timer = Provider.of<Timing>(context);
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,15 +58,9 @@ class _NutritionState extends State<Nutrition> {
         ),
       ),
       PictureContainer(
-        expand: show,
+        expand: timer.breakfast,
         title: 'Breakfast',
         image: 'breakfast',
-        onClicked: () {
-          setState(() {
-            show = false;
-            show2 = true;
-          });
-        },
         buttonText: 'EATEN',
         childOne: Text(
             "Your breakfast should not be too heavy, but shouldn't be too light also. It should be enough to fill you till lunch.",
@@ -86,13 +84,7 @@ class _NutritionState extends State<Nutrition> {
       PictureContainer(
         title: 'Lunch',
         buttonText: 'EATEN',
-        expand: show2,
-        onClicked: () {
-          setState(() {
-            show = true;
-            show2 = false;
-          });
-        },
+        expand: timer.lunch,
         image: 'lunch',
         childOne: Text(
             'Your digestive fire is the highest during noon, this is the best time to eat your heavy meal since it gets digested easily.',
@@ -113,6 +105,7 @@ class _NutritionState extends State<Nutrition> {
         ),
       ),
       PictureContainer(
+        expand: timer.dinner,
         title: 'Dinner',
         buttonText: 'EATEN',
         image: 'dinner',

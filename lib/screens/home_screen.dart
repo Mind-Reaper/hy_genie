@@ -28,14 +28,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   CredentialsScreen credential = CredentialsScreen();
 
-  final controller = ScrollController();
-  final vController = ScrollController();
+  ScrollController controller = ScrollController();
+  ScrollController vController;
 
   void changeIndex(int value) {
     setState(() {
       widget.selected = value;
       scrollTo(value.toDouble());
-      resetScroll();
     });
   }
 
@@ -44,13 +43,16 @@ class _HomeScreenState extends State<HomeScreen> {
       controller.animateTo(controller.position.maxScrollExtent,
           duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
     } else {
-      controller.animateTo(16 * value,
+      controller.animateTo(25 * value,
           duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
     }
   }
 
-  void resetScroll() => vController.animateTo(0,
-      duration: Duration(milliseconds: 700), curve: Curves.fastOutSlowIn);
+  void resetScroll() {
+    if (vController.hasClients)
+      vController.animateTo(0,
+          duration: Duration(milliseconds: 700), curve: Curves.fastOutSlowIn);
+  }
 
   List<Widget> _page = [
     Display(),
@@ -67,8 +69,24 @@ class _HomeScreenState extends State<HomeScreen> {
   double inactiveElevation = 5;
 
   Color activeBallColor = appTheme;
+  double scroll = 0.0;
 
   Color activeIconColor = buttonTextColor;
+  _scrollListener() {
+    if (vController.hasClients) {
+      setState(() {
+        scroll = vController.offset;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    vController = ScrollController();
+    vController.addListener(_scrollListener);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,10 +149,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     children: <Widget>[
                       BallMenu(
-                        size: widget.selected == 0 ? activeSize : inactiveSize,
-                        elevation: widget.selected == 0
-                            ? activeElevation
-                            : inactiveElevation,
+                        title: 'BED TIME',
+                        selected:
+                            widget.selected == 0 && scroll > 70 ? true : false,
                         colour: widget.selected == 0
                             ? activeBallColor
                             : inactiveBallColor,
@@ -149,10 +166,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                       BallMenu(
-                        size: widget.selected == 1 ? activeSize : inactiveSize,
-                        elevation: widget.selected == 1
-                            ? activeElevation
-                            : inactiveElevation,
+                        title: 'SHOWER',
+                        selected:
+                            widget.selected == 1 && scroll > 70 ? true : false,
                         colour: widget.selected == 1
                             ? activeBallColor
                             : inactiveBallColor,
@@ -167,10 +183,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                       BallMenu(
-                        size: widget.selected == 2 ? activeSize : inactiveSize,
-                        elevation: widget.selected == 2
-                            ? activeElevation
-                            : inactiveElevation,
+                        title: 'DENTAL CARE',
+                        selected:
+                            widget.selected == 2 && scroll > 70 ? true : false,
                         colour: widget.selected == 2
                             ? activeBallColor
                             : inactiveBallColor,
@@ -185,10 +200,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                       BallMenu(
-                        size: widget.selected == 3 ? activeSize : inactiveSize,
-                        elevation: widget.selected == 3
-                            ? activeElevation
-                            : inactiveElevation,
+                        title: 'NUTRITION',
+                        selected:
+                            widget.selected == 3 && scroll > 70 ? true : false,
                         colour: widget.selected == 3
                             ? activeBallColor
                             : inactiveBallColor,
@@ -203,10 +217,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                       BallMenu(
-                        size: widget.selected == 4 ? activeSize : inactiveSize,
-                        elevation: widget.selected == 4
-                            ? activeElevation
-                            : inactiveElevation,
+                        title: 'HAND WASH',
+                        selected:
+                            widget.selected == 4 && scroll > 70 ? true : false,
                         colour: widget.selected == 4
                             ? activeBallColor
                             : inactiveBallColor,
@@ -221,10 +234,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                       BallMenu(
-                        size: widget.selected == 5 ? activeSize : inactiveSize,
-                        elevation: widget.selected == 5
-                            ? activeElevation
-                            : inactiveElevation,
+                        title: ' CALORIES',
+                        selected:
+                            widget.selected == 5 && scroll > 70 ? true : false,
                         colour: widget.selected == 5
                             ? activeBallColor
                             : inactiveBallColor,
@@ -254,50 +266,85 @@ class BallMenu extends StatelessWidget {
   final double size;
   final IconData icon;
   final Function select;
-  final double elevation;
+  final bool selected;
   final Color colour;
   final Color iconColor;
+  final String title;
 
   BallMenu({
-    this.size,
+    this.size = 50,
     this.icon,
     this.colour,
     this.iconColor,
     this.select,
-    this.elevation,
+    this.selected,
+    this.title,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: elevation == 10 ? Alignment.topCenter : Alignment.center,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8,
-        ),
-        child: RawMaterialButton(
-          splashColor: appTheme,
-          fillColor: colour,
-          // elevation: elevation,
-          shape: CircleBorder(),
-          constraints: BoxConstraints.tightFor(
-            height: size,
-            width: size,
-          ),
-          onPressed: select,
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: iconColor, width: 2),
-              shape: BoxShape.circle,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: FaIcon(
-                icon,
-                color: iconColor,
-                size: size / 2,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8,
+      ),
+      child: GestureDetector(
+        onTap: select,
+        child: Material(
+          color: colour,
+          elevation: 5,
+          borderRadius: BorderRadius.circular(25),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              AnimatedContainer(
+                padding: EdgeInsets.all(10),
+                duration: Duration(milliseconds: 300),
+                height: size,
+                width: selected ? 100 : size,
+                child: selected
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FaIcon(
+                            icon,
+                            color: iconColor,
+                            size: size / 3,
+                          ),
+                          SizedBox(width: 5),
+                          Flexible(
+                            child: Container(
+                              width: 45,
+                              child: FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text(
+                                  title,
+                                  style: TextStyle(
+                                    fontFamily: 'Nunito',
+                                    color: iconColor,
+                                  ),
+                                  overflow: TextOverflow.fade,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    : Icon(
+                        icon,
+                        color: iconColor,
+                        size: size / 2,
+                      ),
               ),
-            ),
+              AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  height: size - 7,
+                  width: selected ? 93 : size - 7,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: iconColor, width: 2),
+                    borderRadius: BorderRadius.circular(20),
+                  ))
+            ],
           ),
         ),
       ),

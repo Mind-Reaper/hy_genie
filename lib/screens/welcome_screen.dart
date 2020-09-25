@@ -81,11 +81,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             RoundedButton(
               text: 'HELLO',
               onClicked: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DescriptionScreen(),
-                    ));
+                Navigator.pushNamed(context, 'description');
               },
             ),
             SizedBox(height: 40)

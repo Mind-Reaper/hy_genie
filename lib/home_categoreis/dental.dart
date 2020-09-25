@@ -4,6 +4,8 @@ import 'package:hy_genie/widgets/home_references.dart';
 import 'package:hy_genie/widgets/indicator.dart';
 import 'package:hy_genie/widgets/my_container.dart';
 import 'package:hy_genie/widgets/rounded_button.dart';
+import 'package:provider/provider.dart';
+import 'package:hy_genie/app_data.dart';
 
 class Dental extends StatefulWidget {
   @override
@@ -13,6 +15,8 @@ class Dental extends StatefulWidget {
 class _DentalState extends State<Dental> {
   @override
   Widget build(BuildContext context) {
+    var timer = Provider.of<Timing>(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -63,6 +67,7 @@ class _DentalState extends State<Dental> {
           ),
         ),
         PictureContainer(
+          expand: timer.brushDay,
           title: 'Brush',
           buttonText: 'START BRUSH',
           image: 'daybrush',
@@ -84,6 +89,7 @@ class _DentalState extends State<Dental> {
           ),
         ),
         PictureContainer(
+          expand: timer.brushNight,
           title: 'Brush',
           buttonText: 'START BRUSH',
           image: 'nightbrush',
@@ -105,7 +111,8 @@ class _DentalState extends State<Dental> {
           ),
         ),
         PictureContainer(
-          title: 'Chill',
+          expand: timer.brushHydration,
+          title: 'Get Hydrated',
           image: 'brushwait',
           childOne: Text(
             "Your brushing time is not due yet.\nDrink water regularly especially after meals, it can help wash out some of the negative effects of sticky and acidic foods and beverages.",

@@ -72,11 +72,7 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
                   RoundedButton(
                     text: 'PROCEED',
                     onClicked: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
-                          ));
+                      Navigator.pushNamed(context, 'login');
                     },
                   ),
                   SizedBox(

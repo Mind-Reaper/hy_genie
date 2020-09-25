@@ -5,6 +5,9 @@ import 'package:hy_genie/widgets/home_references.dart';
 import 'package:hy_genie/widgets/indicator.dart';
 import 'package:hy_genie/widgets/my_container.dart';
 import 'package:hy_genie/widgets/rounded_button.dart';
+import 'package:provider/provider.dart';
+
+import '../app_data.dart';
 
 class Shower extends StatefulWidget {
   @override
@@ -19,6 +22,8 @@ class _ShowerState extends State<Shower> {
       _vController.animateTo(value,
           duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
     }
+
+    var timer = Provider.of<Timing>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -65,6 +70,7 @@ class _ShowerState extends State<Shower> {
           ),
         ),
         PictureContainer(
+          expand: timer.shower,
           title: 'Shower',
           buttonText: 'SHOWER',
           image: 'shower',
@@ -78,6 +84,7 @@ class _ShowerState extends State<Shower> {
           ),
         ),
         PictureContainer(
+          expand: timer.bodyLotion,
           title: 'Body Lotion',
           buttonText: 'APPLY',
           image: 'moisturizers',

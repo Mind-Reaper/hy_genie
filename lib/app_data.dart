@@ -8,8 +8,10 @@ import 'package:time/time.dart';
 
 class AppData extends ChangeNotifier {
   String username = '';
-  DateTime myTime;
-  DateTime wakeTime = DateTime.now();
+  DateTime myTime = DateTime(
+      DateTime.now().year, DateTime.now().month, DateTime.now().day, 1, 00);
+  DateTime wakeTime = DateTime(
+      DateTime.now().year, DateTime.now().month, DateTime.now().day, 9, 00);
 
   void changeUsername(String value) {
     username = value;
@@ -61,21 +63,75 @@ class Timing extends ChangeNotifier {
   bool sleepWell;
   bool getHydrated;
   bool getReady;
+  bool shower;
+  bool bodyLotion;
+  bool brushDay;
+  bool brushNight;
+  bool brushHydration;
+  bool breakfast;
+  bool lunch;
+  bool dinner;
 
-  void updateTime(context) {
-    updateWidgets(context);
-    notifyListeners();
+  Timer startTime(BuildContext context) {
+    Timer check = Timer.periodic(Duration(seconds: 1), (timer) {
+      Provider.of<Timing>(context, listen: false).updateWidgets(context);
+      notifyListeners();
+    });
+    return check;
   }
 
   void updateWidgets(BuildContext context) {
+    DateTime newDay = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 00, 00);
+    DateTime nextDay = DateTime(DateTime.now().year, DateTime.now().month,
+            DateTime.now().day + 00, 00) +
+        1.days;
+
     var appData = Provider.of<AppData>(context, listen: false);
     sleepWell = DateTime.now().isAfter(appData.myTime) &&
             DateTime.now().isBefore(appData.wakeTime)
-        ? false
-        : true;
+        ? true
+        : false;
     getHydrated = DateTime.now().isAfter(appData.wakeTime) ? true : false;
-    getReady = sleepWell = DateTime.now().isAfter(appData.myTime - 2.hours) &&
+    getReady = DateTime.now().isAfter(appData.myTime - 1.hours) &&
             DateTime.now().isBefore(appData.myTime)
+        ? true
+        : false;
+    shower = DateTime.now().isAfter(appData.wakeTime + 10.minutes) ||
+            DateTime.now().isAfter(newDay + 6.hours)
+        ? true
+        : false;
+    bodyLotion = shower == false ? true : false;
+    brushDay = DateTime.now().isAfter(appData.wakeTime.isAfter(nextDay)
+                ? appData.wakeTime
+                : nextDay) ||
+            DateTime.now().isBefore(appData.wakeTime.isAfter(newDay + 12.hours)
+                ? newDay + 17.hours
+                : newDay + 12.hours)
+        ? true
+        : false;
+
+    brushNight = DateTime.now().isAfter(appData.myTime - 3.hours) ||
+            DateTime.now().isAfter(newDay + 21.hours) &&
+                DateTime.now().isBefore(newDay)
+        ? true
+        : false;
+    brushHydration = brushDay || brushNight ? false : true;
+    breakfast = DateTime.now().isAfter(appData.wakeTime.isAfter(nextDay)
+                ? appData.wakeTime
+                : nextDay) ||
+            DateTime.now().isBefore(newDay + 12.hours)
+        ? true
+        : false;
+
+    lunch = breakfast == false &&
+            DateTime.now().isAfter(newDay + 12.hours) &&
+            DateTime.now().isBefore(newDay + 17.hours)
+        ? true
+        : false;
+    dinner = lunch == false &&
+            DateTime.now().isAfter(newDay + 17.hours) &&
+            DateTime.now().isBefore(nextDay)
         ? true
         : false;
 

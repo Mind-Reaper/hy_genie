@@ -7,6 +7,12 @@ import 'package:hy_genie/theme_state.dart';
 import 'package:provider/provider.dart';
 
 import 'app_data.dart';
+import 'screens/credentials_screen.dart';
+import 'screens/description_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
+import 'screens/register_screen.dart';
+import 'widgets/navigation_bar.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,12 +39,21 @@ class MaterialAppWithTheme extends StatelessWidget {
     Timer.periodic(Duration(seconds: 1), (timer) {
       Provider.of<Timing>(context, listen: false).updateWidgets(context);
     });
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
           statusBarColor: appTheme,
           systemNavigationBarColor: appTheme,
           systemNavigationBarIconBrightness: Brightness.light),
       child: MaterialApp(
+        routes: <String, WidgetBuilder>{
+          'welcome': (BuildContext context) => WelcomeScreen(),
+          'description': (BuildContext context) => DescriptionScreen(),
+          'login': (BuildContext context) => LoginScreen(),
+          'register': (BuildContext context) => RegisterScreen(),
+          'credentials': (BuildContext context) => CredentialsScreen(),
+          'home': (BuildContext context) => HomeScreen(),
+        },
         builder: (context, child) {
           return MediaQuery(
             child: child,
@@ -67,13 +82,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
     super.initState();
 
-    Timer(
-        Duration(seconds: 3),
-        () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => WelcomeScreen(),
-            )));
+    Timer(Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WelcomeScreen(),
+          ));
+    });
   }
 
   @override
