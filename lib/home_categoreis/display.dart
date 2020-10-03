@@ -24,6 +24,7 @@ class _DisplayState extends State<Display> {
   Widget build(BuildContext context) {
     var appData = Provider.of<AppData>(context);
     var timer = Provider.of<Timing>(context);
+    var button = Provider.of<ButtonFunctions>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -77,16 +78,22 @@ class _DisplayState extends State<Display> {
           ),
         ),
         PictureContainer(
+          time: 10 * 60,
+          timerButton: true,
+          onClicked: () {
+            button.done('sleepwell');
+          },
           expand: timer.sleepWell,
           title: 'Sleep Well',
           buttonText: 'PLAY LULLABY',
           image: 'sleepwell',
           childOne: Text(
-            'Music will stop 15 minutes from when you play it.',
+            'Music will stop 10 minutes from when you play it.',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
         PictureContainer(
+          onClicked: () => button.done('gethydrated'),
           expand: timer.getHydrated,
           title: 'Get Hydrated',
           buttonText: "I'M HYDRATED",

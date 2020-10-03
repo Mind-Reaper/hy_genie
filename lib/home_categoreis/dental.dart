@@ -16,6 +16,7 @@ class _DentalState extends State<Dental> {
   @override
   Widget build(BuildContext context) {
     var timer = Provider.of<Timing>(context);
+    var button = Provider.of<ButtonFunctions>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -67,6 +68,11 @@ class _DentalState extends State<Dental> {
           ),
         ),
         PictureContainer(
+          timerButton: true,
+          time: 120,
+          onClicked: () {
+            button.done('brushday');
+          },
           expand: timer.brushDay,
           title: 'Brush',
           buttonText: 'START BRUSH',
@@ -89,6 +95,11 @@ class _DentalState extends State<Dental> {
           ),
         ),
         PictureContainer(
+          timerButton: true,
+          time: 120,
+          onClicked: () {
+            button.done('brushnight');
+          },
           expand: timer.brushNight,
           title: 'Brush',
           buttonText: 'START BRUSH',

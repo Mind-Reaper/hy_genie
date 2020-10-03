@@ -129,11 +129,11 @@ class _CredentialsScreenState extends State<CredentialsScreen> {
                       onClicked: () {
                         if (appData.username.length > 2 &&
                             appData.username.length < 20) {
-                          Navigator.push(
+                          Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => NavigationBar(),
-                              ));
+                                  builder: (context) => NavigationBar()),
+                              (Route<dynamic> route) => false);
                         }
                       },
                     ),

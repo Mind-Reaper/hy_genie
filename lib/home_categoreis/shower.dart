@@ -24,6 +24,7 @@ class _ShowerState extends State<Shower> {
     }
 
     var timer = Provider.of<Timing>(context);
+    var button = Provider.of<ButtonFunctions>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -70,6 +71,11 @@ class _ShowerState extends State<Shower> {
           ),
         ),
         PictureContainer(
+          time: 60 * 5,
+          timerButton: true,
+          onClicked: () {
+            button.done('shower');
+          },
           expand: timer.shower,
           title: 'Shower',
           buttonText: 'SHOWER',
@@ -84,6 +90,9 @@ class _ShowerState extends State<Shower> {
           ),
         ),
         PictureContainer(
+          onClicked: () {
+            button.done('bodylotion');
+          },
           expand: timer.bodyLotion,
           title: 'Body Lotion',
           buttonText: 'APPLY',

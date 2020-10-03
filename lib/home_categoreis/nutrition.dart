@@ -18,6 +18,7 @@ class _NutritionState extends State<Nutrition> {
   @override
   Widget build(BuildContext context) {
     var timer = Provider.of<Timing>(context);
+    var button = Provider.of<ButtonFunctions>(context);
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,6 +59,9 @@ class _NutritionState extends State<Nutrition> {
         ),
       ),
       PictureContainer(
+        onClicked: () {
+          button.done('breakfast');
+        },
         expand: timer.breakfast,
         title: 'Breakfast',
         image: 'breakfast',
@@ -82,6 +86,9 @@ class _NutritionState extends State<Nutrition> {
         ),
       ),
       PictureContainer(
+        onClicked: () {
+          button.done('lunch');
+        },
         title: 'Lunch',
         buttonText: 'EATEN',
         expand: timer.lunch,
@@ -105,6 +112,9 @@ class _NutritionState extends State<Nutrition> {
         ),
       ),
       PictureContainer(
+        onClicked: () {
+          button.done('dinner');
+        },
         expand: timer.dinner,
         title: 'Dinner',
         buttonText: 'EATEN',

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
@@ -9,6 +11,9 @@ import 'package:hy_genie/screens/profile_screen.dart';
 import 'package:hy_genie/screens/stories_screen.dart';
 import 'package:hy_genie/theme_state.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:provider/provider.dart';
+
+import '../app_data.dart';
 
 class NavigationBar extends StatefulWidget {
   @override
@@ -28,6 +33,7 @@ class _NavigationBarState extends State<NavigationBar> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<Timing>(context, listen: false).startTime(context);
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: SnakeNavigationBar(

@@ -298,7 +298,7 @@ class BallMenu extends StatelessWidget {
             children: [
               AnimatedContainer(
                 padding: EdgeInsets.all(10),
-                duration: Duration(milliseconds: 300),
+                duration: Duration(milliseconds: 200),
                 height: size,
                 width: selected ? 100 : size,
                 child: selected
@@ -337,7 +337,7 @@ class BallMenu extends StatelessWidget {
                       ),
               ),
               AnimatedContainer(
-                  duration: Duration(milliseconds: 500),
+                  duration: Duration(milliseconds: 200),
                   height: size - 7,
                   width: selected ? 93 : size - 7,
                   decoration: BoxDecoration(
